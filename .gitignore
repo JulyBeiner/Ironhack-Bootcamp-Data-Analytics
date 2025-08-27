@@ -205,3 +205,29 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ---- July custom ignores (bootcamp) ----
+
+# Secretos / variables de entorno
+.env
+*.env
+
+# Datos crudos: ignora solo los "raw" (para que cleaned.csv y scored.csv sí se suban)
+data/raw/
+data/**/raw/
+
+# Cachés y archivos de sistema
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+.vscode/
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Archivos temporales de Excel
+~$*.xlsx
+~$*.xls
+
+# (Opcional) archivos pesados locales
+*.pbix
+*.bak

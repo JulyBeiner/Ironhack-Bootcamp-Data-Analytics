@@ -1,0 +1,96 @@
+name: Bootstrap repo (crear estructura + submódulos)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Config git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Crear estructura
+        run: |
+          mkdir -p "01-projects"
+          mkdir -p "00-exercises/sql" "00-exercises/python" "00-exercises/pandas-numpy" "00-exercises/stats" "00-exercises/other" "00-exercises/viz"
+          touch "00-exercises/viz/.gitkeep"
+
+      - name: Submódulos — Proyectos
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/Final-Project-Ecommerce-purchase-predictor.git "01-projects/project-01-final-project-ecommerce-purchase-predictor" || true
+          git submodule add https://github.com/JulyBeiner/Wine_quality_ml_project.git                               "01-projects/project-02-wine-quality-ml-project" || true
+          git submodule add https://github.com/JulyBeiner/Webscrapping_Project_Zara.git                              "01-projects/project-03-webscrapping-project-zara" || true
+          git submodule add https://github.com/JulyBeiner/Ironkaggle-Mini-Project.git                                "01-projects/project-04-ironkaggle-mini-project" || true
+          git submodule add https://github.com/JulyBeiner/Quest-Sharkattack.git                                      "01-projects/project-05-quest-sharkattack" || true
+          git submodule add https://github.com/JulyBeiner/Statistics_Quest.git                                       "01-projects/project-06-statistics-quest" || true
+
+      - name: Submódulos — SQL
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/SQL-Queries-.git                                           "00-exercises/sql/sql-queries" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-python-connection.git                              "00-exercises/sql/lab-sql-python-connection" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-subqueries.git                                     "00-exercises/sql/lab-sql-subqueries" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-aggregation-and-transformation.git                 "00-exercises/sql/lab-sql-aggregation-and-transformation" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-joins.git                                          "00-exercises/sql/lab-sql-joins" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-basic-queries.git                                  "00-exercises/sql/lab-sql-basic-queries" || true
+          git submodule add https://github.com/JulyBeiner/lab-sql-mysql-db-creation.git                              "00-exercises/sql/lab-sql-mysql-db-creation" || true
+
+      - name: Submódulos — Python
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/lab-python-data-types-extra.git                            "00-exercises/python/lab-python-data-types-extra" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-data-structures.git                             "00-exercises/python/lab-python-data-structures" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-data-structures-extra.git                       "00-exercises/python/lab-python-data-structures-extra" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-flow-control.git                                "00-exercises/python/lab-python-flow-control" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-error-handling.git                              "00-exercises/python/lab-python-error-handling" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-error-handling-extra.git                        "00-exercises/python/lab-python-error-handling-extra" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-functions.git                                   "00-exercises/python/lab-python-functions" || true
+          git submodule add https://github.com/JulyBeiner/lab-python-list-dict-set-comprehension.git                 "00-exercises/python/lab-python-list-dict-set-comprehension" || true
+          git submodule add https://github.com/JulyBeiner/Ironhack-Lab-1.git                                         "00-exercises/python/ironhack-lab-1" || true
+
+      - name: Submódulos — Pandas / Wrangling
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/lab-dw-pandas.git                                          "00-exercises/pandas-numpy/lab-dw-pandas" || true
+          git submodule add https://github.com/JulyBeiner/lab-dw-data-cleaning-and-formatting.git                    "00-exercises/pandas-numpy/lab-dw-data-cleaning-and-formatting" || true
+          git submodule add https://github.com/JulyBeiner/lab-dw-data-structuring-and-combining.git                  "00-exercises/pandas-numpy/lab-dw-data-structuring-and-combining" || true
+          git submodule add https://github.com/JulyBeiner/lab-dw-data-aggregation-and-filtering.git                  "00-exercises/pandas-numpy/lab-dw-data-aggregation-and-filtering" || true
+          git submodule add https://github.com/JulyBeiner/lab-dataframe-calculations.git                             "00-exercises/pandas-numpy/lab-dataframe-calculations" || true
+
+      - name: Submódulos — EDA / Stats / ML
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/lab-eda-univariate.git                                     "00-exercises/stats/lab-eda-univariate" || true
+          git submodule add https://github.com/JulyBeiner/lab-eda-bivariate.git                                      "00-exercises/stats/lab-eda-bivariate" || true
+          git submodule add https://github.com/JulyBeiner/lab-intro-prob.git                                         "00-exercises/stats/lab-intro-prob" || true
+          git submodule add https://github.com/JulyBeiner/lab-inferential-statistics.git                             "00-exercises/stats/lab-inferential-statistics" || true
+          git submodule add https://github.com/JulyBeiner/lab-two-sample-hyp-test.git                                "00-exercises/stats/lab-two-sample-hyp-test" || true
+          git submodule add https://github.com/JulyBeiner/lab-t-tests-p-values.git                                   "00-exercises/stats/lab-t-tests-p-values" || true
+          git submodule add https://github.com/JulyBeiner/lab-intro-to-ml.git                                        "00-exercises/stats/lab-intro-to-ml" || true
+          git submodule add https://github.com/JulyBeiner/lab-regression.git                                         "00-exercises/stats/lab-regression" || true
+          git submodule add https://github.com/JulyBeiner/lab-supervised-learning.git                                "00-exercises/stats/lab-supervised-learning" || true
+
+      - name: Submódulos — Otros
+        run: |
+          set -x
+          git submodule add https://github.com/JulyBeiner/lab-apis.git                                               "00-exercises/other/lab-apis" || true
+          git submodule add https://github.com/JulyBeiner/lab-web-scraping.git                                       "00-exercises/other/lab-web-scraping" || true
+
+      - name: Commit & push
+        run: |
+          git add -A
+          git commit -m "chore: estructura + submódulos (Ironhack 2024)" || echo "Nada que commitear"
+          git push
